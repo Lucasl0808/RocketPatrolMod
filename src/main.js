@@ -16,3 +16,9 @@ let borderPadding = borderUISize /3;
 //define global high score
 let p1highScore = 0;
 
+//define time as variable
+let easyTime = 60000;
+let hardTime = 45000;
+
+let nov = false;
+let exp = false;

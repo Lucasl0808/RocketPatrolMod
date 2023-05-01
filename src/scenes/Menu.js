@@ -38,6 +38,9 @@ class Menu extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     
+        //reset both modes to false
+        nov = false;
+        exp = false;
     }
 
     update() {
@@ -45,8 +48,9 @@ class Menu extends Phaser.Scene {
           // Novice mode
           game.settings = {
             spaceshipSpeed: 3,
-            gameTimer: 60000    
+            gameTimer: easyTime    
           }
+          nov = true;
           this.sound.play('sfx_select');
           this.scene.start("playScene");    
         }
@@ -54,8 +58,9 @@ class Menu extends Phaser.Scene {
           // Expert mode
           game.settings = {
             spaceshipSpeed: 4,
-            gameTimer: 45000    
+            gameTimer: hardTime 
           }
+          exp = true;
           this.sound.play('sfx_select');
           this.scene.start("playScene");    
         }

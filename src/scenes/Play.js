@@ -60,8 +60,8 @@ class Play extends Phaser.Scene{
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
 
-        this.p1High = this.add.text(borderUISize + borderPadding * 15, borderUISize + borderPadding *2, `High:${p1highScore}`, scoreConfig);
-    
+        this.p1High = this.add.text(borderUISize + borderPadding * 11, borderUISize + borderPadding *2, `High:${p1highScore}`, scoreConfig);
+
         this.gameOver = false;
 
         scoreConfig.fixedWidth = 0;
@@ -74,18 +74,35 @@ class Play extends Phaser.Scene{
             }
         }, null, this);
 
+        this.timer = this.add.text(borderUISize + borderPadding * 21, borderUISize + borderPadding *2, `Time:${game.settings.gameTimer/1000}`, scoreConfig);
+        
     }
 
     update(){
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
+            easyTime = 60000;
+            hardTime = 45000;
             this.scene.restart();
         }
         
         if (this.gameOver && Phaser.Input.Keyboard.JustDown(keyLEFT)) {
+            easyTime = 60000;
+            hardTime = 45000;
             this.scene.start("menuScene");
           }
 
         this.starfield.tilePositionX -= 4;
+
+        if(nov == true){
+            //easyTime -= 1000;
+            this.timer.setText(`Time:${Math.round(game.settings.gameTimer * .001)}`);
+            game.settings.gameTimer -= 25
+        }
+        if(exp == true){
+            //hardTime -= 1000;
+            this.timer.setText(`Time:${Math.round(game.settings.gameTimer * .001)}`);
+            game.settings.gameTimer -= 1;
+        }
 
         if(!this.gameOver){
             this.p1Rocket.update();
@@ -106,7 +123,7 @@ class Play extends Phaser.Scene{
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
-
+        
         
     }
 
