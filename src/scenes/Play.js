@@ -45,6 +45,7 @@ class Play extends Phaser.Scene{
         });
 
         this.p1Score = 0;
+        this.p2score = 0;
 
         let scoreConfig = {
             fontFamily: 'Courier',
@@ -58,10 +59,14 @@ class Play extends Phaser.Scene{
             },
             fixedWidth: 100
         }
-        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, this.p1Score, scoreConfig);
+        this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, `p1: ${this.p1Score}`, scoreConfig);
 
-        this.p1High = this.add.text(borderUISize + borderPadding * 11, borderUISize + borderPadding *2, `High:${p1highScore}`, scoreConfig);
+        if(p2 == true){
+            this.scoreRight = this.add.text(borderUISize + borderPadding * 30, borderUISize + borderPadding * 2, `p2: ${this.p2score}`, scoreConfig);
+        }
+        this.p1High = this.add.text(borderUISize + borderPadding * 11, borderUISize + borderPadding *2, `High:${highScore}`, scoreConfig);
 
+        
         this.gameOver = false;
 
         scoreConfig.fixedWidth = 0;
@@ -69,8 +74,11 @@ class Play extends Phaser.Scene{
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
-            if(this.p1Score > p1highScore){
-                p1highScore = this.p1Score;
+            if(this.p1Score > highScore){
+                highScore = this.p1Score;
+            }
+            if(this.p2score > highScore){
+                highScore = this.p2score;
             }
         }, null, this);
 
@@ -150,9 +158,14 @@ class Play extends Phaser.Scene{
             boom.destroy();                       // remove explosion sprite
         });
         // score add and repaint
-        this.p1Score += ship.points;
-        this.scoreLeft.text = this.p1Score; 
-        
+        if(currentTurn % 2 == 1){
+            this.p1Score += ship.points;
+        } 
+        if(currentTurn % 2 == 0){
+            this.p2score += ship.points;
+        }
+        this.scoreLeft.text = `p1: ${this.p1Score}`;
+        this.scoreRight.text = `p2: ${this.p2score}`;
         this.sound.play('sfx_explosion');
       }
 }

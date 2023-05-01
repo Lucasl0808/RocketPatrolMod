@@ -14,7 +14,7 @@ class Menu extends Phaser.Scene {
         // menu text configuration
         let menuConfig = {
             fontFamily: 'Courier',
-            fontSize: '28px',
+            fontSize: '19px',
             backgroundColor: '#F3B141',
             color: '#843605',
             align: 'right',
@@ -30,17 +30,21 @@ class Menu extends Phaser.Scene {
         this.add.text(game.config.width/2, game.config.height/2, 'Use ←→ arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
-        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press ← for Novice or → for Expert', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press ← for Novice, ↑ Novice 2p, → Expert,  ↓ Expert 2p', menuConfig).setOrigin(0.5);
 
-        this.add.text(game.config.width/2, game.config.height/2+80, `High Score: ${p1highScore}`, menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2+80, `High Score: ${highScore}`, menuConfig).setOrigin(0.5);
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
     
         //reset both modes to false
         nov = false;
         exp = false;
+        p2 = false;
+      
     }
 
     update() {
@@ -54,6 +58,18 @@ class Menu extends Phaser.Scene {
           this.sound.play('sfx_select');
           this.scene.start("playScene");    
         }
+        if (Phaser.Input.Keyboard.JustDown(keyUP)) {
+          // Novice mode 2p
+          game.settings = {
+            spaceshipSpeed: 3,
+            gameTimer: easyTime    
+          }
+          nov = true;
+          p2 = true;
+          this.sound.play('sfx_select');
+          this.scene.start("playScene");    
+        }
+
         if (Phaser.Input.Keyboard.JustDown(keyRIGHT)) {
           // Expert mode
           game.settings = {
@@ -61,6 +77,17 @@ class Menu extends Phaser.Scene {
             gameTimer: hardTime 
           }
           exp = true;
+          this.sound.play('sfx_select');
+          this.scene.start("playScene");    
+        }
+        if (Phaser.Input.Keyboard.JustDown(keyDOWN)) {
+          // Expert mode 2p
+          game.settings = {
+            spaceshipSpeed: 4,
+            gameTimer: hardTime 
+          }
+          exp = true;
+          p2 = true;
           this.sound.play('sfx_select');
           this.scene.start("playScene");    
         }
