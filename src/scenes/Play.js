@@ -7,6 +7,7 @@ class Play extends Phaser.Scene{
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship','./assets/spaceship.png');
         this.load.image('starfield','./assets/starfield.png');
+        this.load.image('spaceship2', './assets/spaceship2.png');
 
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame:0, endFrame:9});
     }
@@ -31,6 +32,8 @@ class Play extends Phaser.Scene{
         this.ship01 = new Spaceship(this, game.config.width + borderUISize*6, borderUISize*4, 'spaceship', 0, 30).setOrigin(0,0);
         this.ship02 = new Spaceship(this, game.config.width + borderUISize*3, borderUISize*5+borderPadding*2,'spaceship',0,20).setOrigin(0,0);
         this.ship03 = new Spaceship(this,game.config.width, borderUISize*6 + borderPadding*4, 'spaceship', 0, 10).setOrigin(0,0);
+
+        this.ship04 = new Spaceship2(this,game.config.width, borderUISize*4 + borderPadding, 'spaceship2', 0, 50).setOrigin(0,0);
 
         //define keys
         keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F);
@@ -117,6 +120,7 @@ class Play extends Phaser.Scene{
             this.ship01.update();
             this.ship02.update();
             this.ship03.update();
+            this.ship04.update();
         }
 
         if(this.checkCollision(this.p1Rocket, this.ship03)){
@@ -130,6 +134,10 @@ class Play extends Phaser.Scene{
         if(this.checkCollision(this.p1Rocket,this.ship01)){
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
+        }
+        if(this.checkCollision(this.p1Rocket,this.ship04)){
+            this.p1Rocket.reset();
+            this.shipExplode(this.ship04);
         }
         
         
@@ -158,14 +166,16 @@ class Play extends Phaser.Scene{
             boom.destroy();                       // remove explosion sprite
         });
         // score add and repaint
-        if(currentTurn % 2 == 1){
+        if(currentTurn % 2 == 1 || p2 == false){
             this.p1Score += ship.points;
         } 
         if(currentTurn % 2 == 0){
             this.p2score += ship.points;
         }
         this.scoreLeft.text = `p1: ${this.p1Score}`;
-        this.scoreRight.text = `p2: ${this.p2score}`;
+        if(p2){
+            this.scoreRight.text = `p2: ${this.p2score}`;
+        }
         this.sound.play('sfx_explosion');
       }
 }

@@ -44,6 +44,7 @@ class Menu extends Phaser.Scene {
         nov = false;
         exp = false;
         p2 = false;
+        currentTurn = 0;
       
     }
 
@@ -52,6 +53,7 @@ class Menu extends Phaser.Scene {
           // Novice mode
           game.settings = {
             spaceshipSpeed: 3,
+            spaceship2Speed: 5,
             gameTimer: easyTime    
           }
           nov = true;
@@ -62,6 +64,7 @@ class Menu extends Phaser.Scene {
           // Novice mode 2p
           game.settings = {
             spaceshipSpeed: 3,
+            spaceship2Speed: 5,
             gameTimer: easyTime    
           }
           nov = true;
@@ -74,6 +77,7 @@ class Menu extends Phaser.Scene {
           // Expert mode
           game.settings = {
             spaceshipSpeed: 4,
+            spaceship2Speed: 6,
             gameTimer: hardTime 
           }
           exp = true;
@@ -84,6 +88,7 @@ class Menu extends Phaser.Scene {
           // Expert mode 2p
           game.settings = {
             spaceshipSpeed: 4,
+            spaceship2Speed: 6,
             gameTimer: hardTime 
           }
           exp = true;
