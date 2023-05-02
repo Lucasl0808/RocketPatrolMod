@@ -15,6 +15,10 @@ class Play extends Phaser.Scene{
     }
 
     create(){
+        
+        let bgm = this.sound.add('bgm');
+        bgm.play();
+        
         this.timedEvent = this.time.delayedCall(30000, this.speedUp, [], this);
 
         this.starfield = this.add.tileSprite(0,0,640,480, 'starfield').setOrigin(0,0);
@@ -168,11 +172,11 @@ class Play extends Phaser.Scene{
         }
         if(!this.p1Rocket.isFiring){
             this.fireText.visible = true;
-            if(currentTurn % 2 == 1 || p2 == false){
+            if(currentTurn % 2 == 1 && p2 == true){
                 this.p1Turn.visible = false;
                 this.p2Turn.visible = true;
             } 
-            if(currentTurn % 2 == 0){
+            if(currentTurn % 2 == 0 && p2 == true){
                 this.p1Turn.visible = true;
                 this.p2Turn.visible = false;
             }
