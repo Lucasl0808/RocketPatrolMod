@@ -3,6 +3,8 @@ class Play extends Phaser.Scene{
         super("playScene");
     }
 
+    timedEvent;
+
     preload(){
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship','./assets/spaceship.png');
@@ -13,6 +15,7 @@ class Play extends Phaser.Scene{
     }
 
     create(){
+        this.timedEvent = this.time.delayedCall(30000, this.speedUp, [], this);
 
         this.starfield = this.add.tileSprite(0,0,640,480, 'starfield').setOrigin(0,0);
 
@@ -62,19 +65,38 @@ class Play extends Phaser.Scene{
             },
             fixedWidth: 100
         }
+
+        let pointer = {
+            fontFamily: 'Courier',
+            fontSize: '20px',
+            backgroundColor: '#F3B141',
+            color: '#843605',
+            align: 'right',
+            padding:{
+                top:5,
+                bottom:5,
+            },
+            fixedWidth: 0
+        }
+
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, `p1: ${this.p1Score}`, scoreConfig);
 
         this.fireText = this.add.text(borderUISize + borderPadding * 30, borderUISize + borderPadding * 2, `FIRE`, scoreConfig);
 
         if(p2 == true){
+            this.p1Turn = this.add.text(borderUISize + borderPadding*5, borderUISize + borderPadding * 4, `↑`, pointer);
+
+            this.p2Turn = this.add.text(borderUISize + borderPadding * 45, borderUISize + borderPadding * 4, `↑`, pointer);
+            this.p2Turn.visible = false;
             this.scoreRight = this.add.text(borderUISize + borderPadding * 40, borderUISize + borderPadding * 2, `p2: ${this.p2score}`, scoreConfig);
         }
         this.p1High = this.add.text(borderUISize + borderPadding * 11, borderUISize + borderPadding *2, `High:${highScore}`, scoreConfig);
-
+        
         
         this.gameOver = false;
 
         scoreConfig.fixedWidth = 0;
+
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
@@ -88,7 +110,6 @@ class Play extends Phaser.Scene{
         }, null, this);
 
         this.timer = this.add.text(borderUISize + borderPadding * 21, borderUISize + borderPadding *2, `Time:${game.settings.gameTimer/1000}`, scoreConfig);
-        
     }
 
     update(){
@@ -147,6 +168,14 @@ class Play extends Phaser.Scene{
         }
         if(!this.p1Rocket.isFiring){
             this.fireText.visible = true;
+            if(currentTurn % 2 == 1 || p2 == false){
+                this.p1Turn.visible = false;
+                this.p2Turn.visible = true;
+            } 
+            if(currentTurn % 2 == 0){
+                this.p1Turn.visible = true;
+                this.p2Turn.visible = false;
+            }
         }
         
     }
@@ -185,5 +214,12 @@ class Play extends Phaser.Scene{
             this.scoreRight.text = `p2: ${this.p2score}`;
         }
         this.sound.play('sfx_explosion');
-      }
+    }
+
+    speedUp(){
+        this.ship01.moveSpeed += 5;
+        this.ship02.moveSpeed += 5;
+        this.ship03.moveSpeed += 5;
+        this.ship04.moveSpeed += 5;
+    }
 }
