@@ -64,8 +64,10 @@ class Play extends Phaser.Scene{
         }
         this.scoreLeft = this.add.text(borderUISize + borderPadding, borderUISize + borderPadding * 2, `p1: ${this.p1Score}`, scoreConfig);
 
+        this.fireText = this.add.text(borderUISize + borderPadding * 30, borderUISize + borderPadding * 2, `FIRE`, scoreConfig);
+
         if(p2 == true){
-            this.scoreRight = this.add.text(borderUISize + borderPadding * 30, borderUISize + borderPadding * 2, `p2: ${this.p2score}`, scoreConfig);
+            this.scoreRight = this.add.text(borderUISize + borderPadding * 40, borderUISize + borderPadding * 2, `p2: ${this.p2score}`, scoreConfig);
         }
         this.p1High = this.add.text(borderUISize + borderPadding * 11, borderUISize + borderPadding *2, `High:${highScore}`, scoreConfig);
 
@@ -139,7 +141,13 @@ class Play extends Phaser.Scene{
             this.p1Rocket.reset();
             this.shipExplode(this.ship04);
         }
-        
+
+        if(this.p1Rocket.isFiring){
+            this.fireText.visible = false;
+        }
+        if(!this.p1Rocket.isFiring){
+            this.fireText.visible = true;
+        }
         
     }
 
