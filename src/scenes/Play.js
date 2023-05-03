@@ -8,7 +8,7 @@ class Play extends Phaser.Scene{
     preload(){
         this.load.image('rocket', './assets/rocket.png');
         this.load.image('spaceship','./assets/spaceship.png');
-        this.load.image('starfield','./assets/starfield.png');
+        this.load.image('starfield','./assets/newStarfield1.png');
         this.load.image('spaceship2', './assets/spaceship2.png');
 
         this.load.spritesheet('explosion', './assets/explosion.png', {frameWidth: 64, frameHeight: 32, startFrame:0, endFrame:9});
@@ -17,14 +17,14 @@ class Play extends Phaser.Scene{
     create(){
         
         let bgm = this.sound.add('bgm');
-        bgm.play();
+        bgm.play({volume: 0.3});
         
         this.timedEvent = this.time.delayedCall(30000, this.speedUp, [], this);
 
         this.starfield = this.add.tileSprite(0,0,640,480, 'starfield').setOrigin(0,0);
 
         //green UI background
-        this.add.rectangle(0, borderUISize+borderPadding, game.config.width, borderUISize*2, 0x00FF00).setOrigin(0,0);
+        //this.add.rectangle(0, borderUISize+borderPadding, game.config.width, borderUISize*2, 0x00FF00).setOrigin(0,0);
         
         //white borders
         this.add.rectangle(0,0,game.config.width,borderUISize, 0xFFFFFF).setOrigin(0,0);
@@ -105,6 +105,7 @@ class Play extends Phaser.Scene{
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
             this.gameOver = true;
+            bgm.stop();
             if(this.p1Score > highScore){
                 highScore = this.p1Score;
             }
@@ -221,9 +222,9 @@ class Play extends Phaser.Scene{
     }
 
     speedUp(){
-        this.ship01.moveSpeed += 5;
-        this.ship02.moveSpeed += 5;
-        this.ship03.moveSpeed += 5;
-        this.ship04.moveSpeed += 5;
+        this.ship01.moveSpeed += 3;
+        this.ship02.moveSpeed += 3;
+        this.ship03.moveSpeed += 3;
+        this.ship04.moveSpeed += 3;
     }
 }
