@@ -117,6 +117,7 @@ class Play extends Phaser.Scene{
         this.timer = this.add.text(borderUISize + borderPadding * 21, borderUISize + borderPadding *2, `Time:${game.settings.gameTimer/1000}`, scoreConfig);
 
         this.counter = this.time.addEvent({delay: 1000, callback: this.countdown, callbackScope: this, loop: true});
+
     }
 
     update(){
@@ -152,8 +153,15 @@ class Play extends Phaser.Scene{
             this.scene.start("menuScene");
           }
 
-        this.starfield.tilePositionX -= 2;
-
+        this.starfield.tilePositionX -= backgroundSpeed;
+        /*
+        if(keyLEFT.JustDown && this.x >= borderUISize + this.width) {
+            backgroundSpeed = 5;
+        }
+        if (keyRIGHT.JustDown && this.x <= game.config.width - borderUISize - this.width){
+            backgroundSpeed = 1;
+        }
+        */
         if(!this.gameOver){
             this.p1Rocket.update();
             this.ship01.update();
@@ -163,18 +171,26 @@ class Play extends Phaser.Scene{
         }
 
         if(this.checkCollision(this.p1Rocket, this.ship03)){
+            game.settings.gameTimer += 2000;
+            this.timer.setText(`Time:${game.settings.gameTimer/1000}`);
             this.p1Rocket.reset();
             this.shipExplode(this.ship03);
         }
         if(this.checkCollision(this.p1Rocket,this.ship02)){
+            game.settings.gameTimer += 2000;
+            this.timer.setText(`Time:${game.settings.gameTimer/1000}`);
             this.p1Rocket.reset();
             this.shipExplode(this.ship02);
         }
         if(this.checkCollision(this.p1Rocket,this.ship01)){
+            game.settings.gameTimer += 2000;
+            this.timer.setText(`Time:${game.settings.gameTimer/1000}`);
             this.p1Rocket.reset();
             this.shipExplode(this.ship01);
         }
         if(this.checkCollision(this.p1Rocket,this.ship04)){
+            game.settings.gameTimer += 4000;
+            this.timer.setText(`Time:${game.settings.gameTimer/1000}`);
             this.p1Rocket.reset();
             this.shipExplode(this.ship04);
         }

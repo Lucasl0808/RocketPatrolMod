@@ -41,7 +41,7 @@ class Menu extends Phaser.Scene {
           fixedWidth: 0
       }
         // show menu text
-        this.add.text(game.config.width/2, game.config.height/5 - borderUISize - borderPadding, 'Space Shooters', titleConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/5 - borderUISize - borderPadding, 'Rocket Patrol 2: 2 Many Rockets', titleConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, 'Use ←→ arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
