@@ -9,12 +9,14 @@ class Menu extends Phaser.Scene {
         this.load.audio('sfx_explosion', './assets/explosion38.wav');
         this.load.audio('sfx_rocket', './assets/rocket_shot.wav');
         this.load.audio('bgm', './assets/bgm.mp3');
+        this.load.image('moon', './assets/moonIcon.png');
+        this.load.image('icon', './assets/menuIcon.png');
     }
 
     create() {
         // menu text configuration
         let menuConfig = {
-            fontFamily: 'Courier',
+            fontFamily: 'Lexend',
             fontSize: '19px',
             backgroundColor: '#F3B141',
             color: '#843605',
@@ -26,14 +28,28 @@ class Menu extends Phaser.Scene {
             fixedWidth: 0
         }
         
+        let titleConfig = {
+          fontFamily: 'Impact',
+          fontSize: '40px',
+          backgroundColor: '#d3ff8f',
+          color: '#ff6ff2',
+          align: 'right',
+          padding: {
+              top: 5,
+              bottom: 5,
+          },
+          fixedWidth: 0
+      }
         // show menu text
-        this.add.text(game.config.width/2, game.config.height/2 - borderUISize - borderPadding, 'ROCKET PATROL', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/5 - borderUISize - borderPadding, 'Space Shooters', titleConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, 'Use ←→ arrows to move & (F) to fire', menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
         this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, 'Press ← for Novice, ↑ Novice 2p, → Expert,  ↓ Expert 2p', menuConfig).setOrigin(0.5);
 
         this.add.text(game.config.width/2, game.config.height/2+80, `High Score: ${highScore}`, menuConfig).setOrigin(0.5);
+        this.add.sprite(100,200,'moon');
+        this.add.sprite(550,200,'icon');
 
         // define keys
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);

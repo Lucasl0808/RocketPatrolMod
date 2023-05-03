@@ -16,8 +16,8 @@ class Play extends Phaser.Scene{
 
     create(){
         
-        let bgm = this.sound.add('bgm');
-        bgm.play({volume: 0.3});
+        bgm = this.sound.add('bgm');
+        bgm.play({volume: 0.2});
         
         this.timedEvent = this.time.delayedCall(30000, this.speedUp, [], this);
 
@@ -56,7 +56,7 @@ class Play extends Phaser.Scene{
 
         this.p1Score = 0;
         this.p2score = 0;
-
+        /*
         let scoreConfig = {
             fontFamily: 'Courier',
             fontSize: '20px',
@@ -69,7 +69,7 @@ class Play extends Phaser.Scene{
             },
             fixedWidth: 100
         }
-
+        */
         let pointer = {
             fontFamily: 'Courier',
             fontSize: '20px',
@@ -100,7 +100,7 @@ class Play extends Phaser.Scene{
         this.gameOver = false;
 
         scoreConfig.fixedWidth = 0;
-
+        /*
         this.clock = this.time.delayedCall(game.settings.gameTimer, () => {
             this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
             this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
@@ -113,14 +113,36 @@ class Play extends Phaser.Scene{
                 highScore = this.p2score;
             }
         }, null, this);
-
+        */
         this.timer = this.add.text(borderUISize + borderPadding * 21, borderUISize + borderPadding *2, `Time:${game.settings.gameTimer/1000}`, scoreConfig);
+
+        this.counter = this.time.addEvent({delay: 1000, callback: this.countdown, callbackScope: this, loop: true});
     }
 
     update(){
+        /*
+        if(game.settings.gameTimer <= -1000){
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+            this.gameOver = true;
+            bgm.stop();
+            if(this.p1Score > highScore){
+                highScore = this.p1Score;
+            }
+            if(this.p2score > highScore){
+                highScore = this.p2score;
+            }
+        }
+        */
         if(this.gameOver && Phaser.Input.Keyboard.JustDown(keyR)){
             easyTime = 60000;
             hardTime = 45000;
+            if(nov){
+                game.settings.gameTimer = easyTime;
+            }
+            if(exp){
+                game.settings.gameTimer = hardTime;
+            }
             this.scene.restart();
         }
         
@@ -130,18 +152,7 @@ class Play extends Phaser.Scene{
             this.scene.start("menuScene");
           }
 
-        this.starfield.tilePositionX -= 4;
-
-        if(nov == true){
-            //easyTime -= 1000;
-            this.timer.setText(`Time:${Math.round(game.settings.gameTimer * .001)}`);
-            game.settings.gameTimer -= 25
-        }
-        if(exp == true){
-            //hardTime -= 1000;
-            this.timer.setText(`Time:${Math.round(game.settings.gameTimer * .001)}`);
-            game.settings.gameTimer -= 1;
-        }
+        this.starfield.tilePositionX -= 2;
 
         if(!this.gameOver){
             this.p1Rocket.update();
@@ -226,5 +237,23 @@ class Play extends Phaser.Scene{
         this.ship02.moveSpeed += 3;
         this.ship03.moveSpeed += 3;
         this.ship04.moveSpeed += 3;
+    }
+
+    countdown(){
+        game.settings.gameTimer -= 1000;
+        this.timer.setText(`Time:${game.settings.gameTimer/1000}`);
+        if(game.settings.gameTimer < 0){
+            this.counter.destroy();
+            this.add.text(game.config.width/2, game.config.height/2, 'GAME OVER', scoreConfig).setOrigin(0.5);
+            this.add.text(game.config.width/2, game.config.height/2 + 64, 'Press (R) to Restart or ← for Menu', scoreConfig).setOrigin(0.5);
+            this.gameOver = true;
+            bgm.stop();
+            if(this.p1Score > highScore){
+                highScore = this.p1Score;
+            }
+            if(this.p2score > highScore){
+                highScore = this.p2score;
+            }
+        }
     }
 }

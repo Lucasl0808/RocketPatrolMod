@@ -25,3 +25,18 @@ let exp = false;
 
 let p2 = false;
 let currentTurn = 0;
+
+let scoreConfig = {
+    fontFamily: 'Courier',
+    fontSize: '20px',
+    backgroundColor: '#F3B141',
+    color: '#843605',
+    align: 'right',
+    padding:{
+        top:5,
+        bottom:5,
+    },
+    fixedWidth: 100
+};
+
+let bgm;
